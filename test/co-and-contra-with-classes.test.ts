@@ -9,10 +9,14 @@ describe('For starters', () => {
         const cat = new Cat("Miriam");
         printAnimal(cat);
     });
-    it('I can print an array of a cat and a dogs', () => {
+    it('I can print an animal array of a cat and a dogs', () => {
         const hasso = new Dog("Hasso");
         const miriam = new Cat("Miriam");
         const animals : Animal[] = [hasso, miriam];
         printAnimalArray(animals);
+    });
+    it('I can print a dog array of two dogs', () => {
+        const dogs : Dog[] = [new Dog("Hasso"), new Dog("Pluto")];
+        printAnimalArray(dogs);
     });
 });
