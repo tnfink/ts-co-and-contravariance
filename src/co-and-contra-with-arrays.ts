@@ -10,6 +10,8 @@
 // - https://www.typescriptlang.org/docs/handbook/type-compatibility.html
 //  Grundlagen Typ-Kompatibilität, Strukturell vs. Nominal
 //  dort die Definition von "Function Parameter Bivariance"
+// Definition der strikten Checks:
+// https://www.typescriptlang.org/tsconfig#strictFunctionTypes
 //
 // - https://www.typescriptlang.org/docs/handbook/type-inference.html
 //  Type Inference, aber sehr minimal
@@ -19,15 +21,15 @@
 // anschauen:
 // - Discriminated Unions
 
+// anpassen: der funktionale Aspekt raus und nur "readonly" dazu
 
 // =======================================================
 //  Domain Model
 // =======================================================
 
-
 export abstract class Animal {
-    protected constructor(protected readonly kind: string,
-                          protected readonly name: string) {
+    protected constructor(readonly kind: string,
+                          readonly name: string) {
     }
 
     public abstract toString(): string;
@@ -47,8 +49,14 @@ export class Cat extends Animal {
     constructor(name: string) {
         super("Cat", name);
     }
+
     public toString(): string {
         return "Cat -" + this.name;
+    }
+}
+
+export class Employee {
+    constructor(readonly kind: string, readonly name: string, readonly taxNumber: string) {
     }
 }
 
@@ -70,16 +78,16 @@ export function printAnimal(animal: Animal) {
 export function printAnimalArray(animals: Animal[]) {
     const output =
         animals
-        .map((animal:Animal) => animal.toString())
-        .join(", ");
+            .map((animal: Animal) => animal.toString())
+            .join(", ");
     console.log(output);
 }
 
 export function printTaxNumbers(dogs: Dog[]) {
     const output =
         dogs
-        .map((dog) => dog.taxNumber)
-        .join(", ");
+            .map((dog) => dog.taxNumber)
+            .join(", ");
     console.log(output);
 }
 
@@ -93,8 +101,18 @@ export function addCatToArray(animals: Animal[]) {
 //  fp-ts
 // =======================================================
 
-export function printROFPArray(animals: ReadonlyArray<Animal>) {
-    animals.forEach((animal: Animal) => {
-        console.log(animal.toString())
-    })
+export function printROFPArrayOfAnimals(animals: readonly Animal[]) {
+    let output = animals
+        .map((animal: Animal) => animal.toString())
+        .join(", ");
+    console.log(output)
 }
+
+export function printROFPArrayOfTaxNumbers(dogs: readonly Dog[]) {
+    let output = dogs
+        .map((dog: Dog) => dog.taxNumber)
+        .join(", ");
+    console.log(output)
+}
+
+

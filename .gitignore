@@ -2,3 +2,6 @@
 .DS_Store
 node_modules
 dist
+/.idea
+/package-lock.json
+/ts-co-and-contravariance.iml
