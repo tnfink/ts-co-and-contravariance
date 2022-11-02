@@ -115,4 +115,27 @@ export function printROFPArrayOfTaxNumbers(dogs: readonly Dog[]) {
     console.log(output)
 }
 
+// =======================================================
+//  Structural Compatibility
+// =======================================================
+
+export class Pet {
+    constructor(readonly name:string) {
+    }
+}
+export class PetWithTaxNumber extends Pet {
+    constructor(readonly name:string, readonly number:string) {
+        super(name);
+    }
+}
+export class Person {
+    constructor(readonly name:string) {
+    }
+}
+
+export class EmployeeWithPersonnelNumber extends Person {
+    constructor(readonly name:string, readonly number:string) {
+        super (number)
+    }
+}
 

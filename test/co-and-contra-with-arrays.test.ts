@@ -3,7 +3,7 @@ import {
     Animal,
     Cat,
     Dog,
-    Employee,
+    Employee, EmployeeWithPersonnelNumber, Person, Pet, PetWithTaxNumber,
     printAnimal,
     printAnimalArray,
     printROFPArrayOfAnimals,
@@ -96,5 +96,39 @@ describe('Covariance with functional writable Arrays', () => {
         const animals: Animal[] = [hasso, miriam];
         console.log(animals);
         //printWFPArrayOfAnimals(fromArray(animals));
+    });
+})
+
+describe ('Structural Compatibility', () => {
+    it('I can assign things that are semantically different', () => {
+        const myKitty = new PetWithTaxNumber("kitty", "12345678");
+        const meAtWork = new EmployeeWithPersonnelNumber("Torsten Fink", "MI5-007");
+        const neighboursDog : Pet = meAtWork;
+        const neighbour : Person = myKitty;
+
+        console.log("neighboursDog:");
+        console.log(neighboursDog)
+        console.log("neighbour:");
+        console.log(neighbour)
+    });
+    it('I can assign array of things that are semantically different', () => {
+        const myPets : Pet[] = [new Pet("kitty")];
+        const myTaxedPets : PetWithTaxNumber[] = [new PetWithTaxNumber("taxed kitty", "12334")];
+        const myPersons : Person[] = [new Person("Me Person")];
+        const myEmployees : EmployeeWithPersonnelNumber[] = [new EmployeeWithPersonnelNumber("Myself", "ABCDEFG")];
+
+        let otherPets = myPets;
+        otherPets = myTaxedPets;
+        otherPets = myPersons;
+
+        let otherTaxedPets = myTaxedPets;
+        // otherTaxedPets = myPets; structural incompatible
+        otherTaxedPets = myEmployees;
+
+
+        console.log("otherPets:");
+        console.log(otherPets)
+        console.log("otherTaxedPets:");
+        console.log(otherTaxedPets)
     });
 })
